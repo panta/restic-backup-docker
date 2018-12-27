@@ -19,15 +19,24 @@ if [ ! -f "$RESTIC_REPOSITORY/config" ]; then
     restic init | true
 fi
 
-echo "Setup backup cron job with cron expression BACKUP_CRON: ${BACKUP_CRON}"
-echo "${BACKUP_CRON} /bin/backup >> /var/log/cron.log 2>&1" > /var/spool/cron/crontabs/root
+if [ -n "${BACKUP_CRON}" ]; then
+	echo "Setup backup cron job with cron expression BACKUP_CRON: ${BACKUP_CRON}"
+	echo "${BACKUP_CRON} /bin/backup >> /var/log/cron.log 2>&1" > /var/spool/cron/crontabs/root
 
-# Make sure the file exists before we start tail
-touch /var/log/cron.log
+	# Make sure the file exists before we start tail
+	touch /var/log/cron.log
 
-# start the cron deamon
-crond
+	# start the cron deamon
+	crond
 
-echo "Container started."
+	echo "Container started."
 
-tail -fn0 /var/log/cron.log
+	tail -fn0 /var/log/cron.log
+else
+	echo "Starting immediate non-scheduled backup..."
+	/bin/backup >> /var/log/backup-immediate.log 2>&1
+
+	echo "Container started."
+
+	tail -fn0 /var/log/backup-immediate.log
+fi
