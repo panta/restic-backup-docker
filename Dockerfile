@@ -15,6 +15,7 @@ RUN mkdir -p /mnt/restic /var/spool/cron/crontabs /var/log
 
 ENV RESTIC_REPOSITORY=/mnt/restic
 ENV RESTIC_PASSWORD=""
+ENV RESTIC_HOST=""
 ENV RESTIC_TAG=""
 ENV NFS_TARGET=""
 # By default backup every 6 hours
