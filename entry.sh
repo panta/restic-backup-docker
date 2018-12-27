@@ -9,6 +9,26 @@ if [ -n "${ROOT_CERT}" ]; then
 	RESTIC_CMD="${RESTIC_CMD} --cert ${ROOT_CERT}"
 fi
 
+# handle ssh config and keys
+mkdir -p ~/.ssh
+chmod 700 ~/.ssh
+[[ ! -z "$SSH_CONFIG" ]] && \
+  echo "$SSH_CONFIG" > ~/.ssh/config && \
+  chmod 600 ~/.ssh/config && \
+  unset SSH_CONFIG
+[[ ! -z "$SSH_CONFIG_PATH" && ! -a ~/.ssh/config ]] && \
+  cp "$SSH_CONFIG_PATH" ~/.ssh/config && \
+  chmod 600 ~/.ssh/config && \
+unset SSH_CONFIG_PATH
+[[ ! -z "$SSH_PRIVATE_RSA_KEY" ]] && \
+  echo "$SSH_PRIVATE_RSA_KEY" > ~/.ssh/id_rsa && \
+  chmod 600 ~/.ssh/id_rsa && \
+unset SSH_PRIVATE_RSA_KEY
+[[ ! -z "$SSH_PRIVATE_RSA_KEY_PATH" && ! -a ~/.ssh/id_rsa ]] && \
+  cp "$SSH_PRIVATE_RSA_KEY_PATH" ~/.ssh/id_rsa && \
+  chmod 600 ~/.ssh/id_rsa && \
+unset SSH_PRIVATE_RSA_KEY_PATH
+
 if [ -n "${NFS_TARGET}" ]; then
     echo "Mounting NFS based on NFS_TARGET: ${NFS_TARGET}"
     mount -o nolock -v ${NFS_TARGET} /mnt/restic
