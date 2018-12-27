@@ -1,8 +1,7 @@
 FROM golang:1.11.1-alpine as builder
 MAINTAINER Marco Pantaleoni <marco.pantaleoni@gmail.com>
 
-RUN apt-get update && \
-    apt-get install -y --no-install-recommends git make curl bash fuse
+RUN apk add --update --no-cache ca-certificates git fuse
 
 # Copy source code
 RUN mkdir -p /src
