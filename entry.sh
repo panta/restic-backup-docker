@@ -41,7 +41,11 @@ if [ -n "${NFS_TARGET}" ]; then
     mount -o nolock -v ${NFS_TARGET} /mnt/restic
 fi
 
-if [ ! -f "$RESTIC_REPOSITORY/config" ]; then
+# if [ ! -f "$RESTIC_REPOSITORY/config" ]; then
+#     echo "Restic repository '${RESTIC_REPOSITORY}' does not exists. Running restic init."
+#     restic init | true
+# fi
+if ! ${RESTIC_CMD} snapshots ; then
     echo "Restic repository '${RESTIC_REPOSITORY}' does not exists. Running restic init."
     restic init | true
 fi
