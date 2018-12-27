@@ -18,7 +18,7 @@ if [ -n "${SSH_CONFIG}" ] ; then
   unset SSH_CONFIG
 fi
 if [ -n "${SSH_CONFIG_PATH}" ] ; then
-  if [ ! -a ~/.ssh/config ] ; then
+  if [ ! -f ~/.ssh/config ] ; then
     cp "${SSH_CONFIG_PATH}" ~/.ssh/config
     chmod 600 ~/.ssh/config
     unset SSH_CONFIG_PATH
@@ -30,7 +30,7 @@ if [ -n "${SSH_PRIVATE_RSA_KEY}" ] ; then
   unset SSH_PRIVATE_RSA_KEY
 fi
 if [ -n "${SSH_PRIVATE_RSA_KEY_PATH}" ] ; then
-  if [ ! -a ~/.ssh/id_rsa ] ; then
+  if [ ! -f ~/.ssh/id_rsa ] ; then
     cp "${SSH_PRIVATE_RSA_KEY_PATH}" ~/.ssh/id_rsa
     chmod 600 ~/.ssh/id_rsa
     unset SSH_PRIVATE_RSA_KEY_PATH
