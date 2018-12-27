@@ -1,7 +1,7 @@
 TOP := $(shell pwd)
 
 REPOSITORY?=panta/restic-backup-docker
-TAG?=latest
+TAG?=latest-alpine
 
 OK_COLOR=\033[32;01m
 NO_COLOR=\033[0m
