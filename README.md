@@ -1,6 +1,8 @@
 # Restic Backup Docker Container
 A docker container to automate [restic backups](https://restic.github.io/)
 
+Forked from [lobaro/restic-backup-docker](https://github.com/lobaro/restic-backup-docker).
+
 This container runs restic backups in regular intervals. 
 
 * Easy setup and maintanance
