@@ -12,26 +12,26 @@ fi
 # handle ssh config and keys
 mkdir -p ~/.ssh
 chmod 700 ~/.ssh
-if [ ! -z "${SSH_CONFIG}" ] ; then
-  echo "$SSH_CONFIG" > ~/.ssh/config
+if [ -n "${SSH_CONFIG}" ] ; then
+  echo "${SSH_CONFIG}" > ~/.ssh/config
   chmod 600 ~/.ssh/config
   unset SSH_CONFIG
 fi
-if [ ! -z "${SSH_CONFIG_PATH}" ] ; then
+if [ -n "${SSH_CONFIG_PATH}" ] ; then
   if [ ! -a ~/.ssh/config ] ; then
-    cp "$SSH_CONFIG_PATH" ~/.ssh/config
+    cp "${SSH_CONFIG_PATH}" ~/.ssh/config
     chmod 600 ~/.ssh/config
     unset SSH_CONFIG_PATH
   fi
 fi
-if [ ! -z "${SSH_PRIVATE_RSA_KEY}" ] ; then
-  echo "$SSH_PRIVATE_RSA_KEY" > ~/.ssh/id_rsa
+if [ -n "${SSH_PRIVATE_RSA_KEY}" ] ; then
+  echo "${SSH_PRIVATE_RSA_KEY}" > ~/.ssh/id_rsa
   chmod 600 ~/.ssh/id_rsa
   unset SSH_PRIVATE_RSA_KEY
 fi
-if [ ! -z "${SSH_PRIVATE_RSA_KEY_PATH}" ] ; then
+if [ -n "${SSH_PRIVATE_RSA_KEY_PATH}" ] ; then
   if [ ! -a ~/.ssh/id_rsa ] ; then
-    cp "$SSH_PRIVATE_RSA_KEY_PATH" ~/.ssh/id_rsa
+    cp "${SSH_PRIVATE_RSA_KEY_PATH}" ~/.ssh/id_rsa
     chmod 600 ~/.ssh/id_rsa
     unset SSH_PRIVATE_RSA_KEY_PATH
   fi
