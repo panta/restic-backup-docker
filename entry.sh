@@ -12,25 +12,29 @@ fi
 # handle ssh config and keys
 mkdir -p ~/.ssh
 chmod 700 ~/.ssh
-if [ ! -z "$SSH_CONFIG" ] ; then
+if [ ! -z "${SSH_CONFIG}" ] ; then
   echo "$SSH_CONFIG" > ~/.ssh/config
   chmod 600 ~/.ssh/config
   unset SSH_CONFIG
 fi
-if [ ! -z "$SSH_CONFIG_PATH" && ! -a ~/.ssh/config ]; then
-  cp "$SSH_CONFIG_PATH" ~/.ssh/config
-  chmod 600 ~/.ssh/config
-  unset SSH_CONFIG_PATH
+if [ ! -z "${SSH_CONFIG_PATH}" ] ; then
+  if [ ! -a ~/.ssh/config ] ; then
+    cp "$SSH_CONFIG_PATH" ~/.ssh/config
+    chmod 600 ~/.ssh/config
+    unset SSH_CONFIG_PATH
+  fi
 fi
-if [ ! -z "$SSH_PRIVATE_RSA_KEY" ]; then
+if [ ! -z "${SSH_PRIVATE_RSA_KEY}" ] ; then
   echo "$SSH_PRIVATE_RSA_KEY" > ~/.ssh/id_rsa
   chmod 600 ~/.ssh/id_rsa
   unset SSH_PRIVATE_RSA_KEY
 fi
-if [ ! -z "$SSH_PRIVATE_RSA_KEY_PATH" && ! -a ~/.ssh/id_rsa ]; then
-  cp "$SSH_PRIVATE_RSA_KEY_PATH" ~/.ssh/id_rsa
-  chmod 600 ~/.ssh/id_rsa
-  unset SSH_PRIVATE_RSA_KEY_PATH
+if [ ! -z "${SSH_PRIVATE_RSA_KEY_PATH}" ] ; then
+  if [ ! -a ~/.ssh/id_rsa ] ; then
+    cp "$SSH_PRIVATE_RSA_KEY_PATH" ~/.ssh/id_rsa
+    chmod 600 ~/.ssh/id_rsa
+    unset SSH_PRIVATE_RSA_KEY_PATH
+  fi
 fi
 if [ -n "${NFS_TARGET}" ]; then
     echo "Mounting NFS based on NFS_TARGET: ${NFS_TARGET}"
@@ -42,7 +46,7 @@ if [ ! -f "$RESTIC_REPOSITORY/config" ]; then
     restic init | true
 fi
 
-if [ -n "${BACKUP_CRON}" ]; then
+if [ -n "${BACKUP_CRON}" ] ; then
 	echo "Setup backup cron job with cron expression BACKUP_CRON: '${BACKUP_CRON}'"
 	echo "${BACKUP_CRON} /bin/backup >> /var/log/cron.log 2>&1" > /var/spool/cron/crontabs/root
 
