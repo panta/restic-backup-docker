@@ -20,7 +20,7 @@ if [ ! -f "$RESTIC_REPOSITORY/config" ]; then
 fi
 
 if [ -n "${BACKUP_CRON}" ]; then
-	echo "Setup backup cron job with cron expression BACKUP_CRON: ${BACKUP_CRON}"
+	echo "Setup backup cron job with cron expression BACKUP_CRON: '${BACKUP_CRON}'"
 	echo "${BACKUP_CRON} /bin/backup >> /var/log/cron.log 2>&1" > /var/spool/cron/crontabs/root
 
 	# Make sure the file exists before we start tail
