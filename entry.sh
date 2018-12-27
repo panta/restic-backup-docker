@@ -3,7 +3,7 @@ set -e
 
 echo "Starting container ..."
 
-RESTIC_CMD=restic
+RESTIC_CMD=/usr/bin/restic
 
 if [ -n "${ROOT_CERT}" ]; then
 	RESTIC_CMD="${RESTIC_CMD} --cert ${ROOT_CERT}"

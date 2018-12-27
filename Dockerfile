@@ -1,15 +1,38 @@
-FROM alpine as certs
-RUN apk add --no-cache ca-certificates
+FROM golang:1.11.1-alpine as builder
+MAINTAINER Marco Pantaleoni <marco.pantaleoni@gmail.com>
+
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends git make curl bash fuse
+
+# Copy source code
+RUN mkdir -p /src
+WORKDIR /src
+# RUN git clone git@github.com:restic/restic.git
+RUN git clone https://github.com/restic/restic.git
+
+WORKDIR /src/restic
+RUN git checkout v0.9.3
+
+# Enable Go modules
+ENV GO111MODULE=on
+
+# Build
+RUN go run -mod=vendor build.go
+
+# # Test
+# RUN go test ./cmd/... ./internal/...
 
 
-FROM busybox:glibc
+FROM alpine:latest
+MAINTAINER Marco Pantaleoni <marco.pantaleoni@gmail.com>
 
-COPY --from=certs /etc/ssl/certs /etc/ssl/certs
+RUN apk add --update --no-cache ca-certificates fuse openssh-client
 
 # Get restic executable
 ENV RESTIC_VERSION=0.9.3
-ADD https://github.com/restic/restic/releases/download/v${RESTIC_VERSION}/restic_${RESTIC_VERSION}_linux_amd64.bz2 /
-RUN bzip2 -d restic_${RESTIC_VERSION}_linux_amd64.bz2 && mv restic_${RESTIC_VERSION}_linux_amd64 /bin/restic && chmod +x /bin/restic
+# ADD https://github.com/restic/restic/releases/download/v${RESTIC_VERSION}/restic_${RESTIC_VERSION}_linux_amd64.bz2 /
+# RUN bzip2 -d restic_${RESTIC_VERSION}_linux_amd64.bz2 && mv restic_${RESTIC_VERSION}_linux_amd64 /usr/bin/restic && chmod +x /usr/bin/restic
+COPY --from=builder /src/restic/restic /usr/bin/restic
 
 RUN mkdir -p /mnt/restic /var/spool/cron/crontabs /var/log
 
@@ -34,4 +57,3 @@ RUN touch /var/log/cron.log
 WORKDIR "/"
 
 ENTRYPOINT ["/entry.sh"]
-
