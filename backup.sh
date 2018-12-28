@@ -23,9 +23,9 @@ logLast "RESTIC_JOB_ARGS: ${RESTIC_JOB_ARGS}"
 
 # Do not save full backup log to logfile but to backup-last.log
 if [ -n "${RESTIC_HOST}" ]; then
-    restic backup /data ${RESTIC_JOB_ARGS} --host=${RESTIC_HOST} --tag=${RESTIC_TAG?"Missing environment variable RESTIC_TAG"} >> ${lastLogfile} 2>&1
+    restic backup -v /data ${RESTIC_JOB_ARGS} --host=${RESTIC_HOST} --tag=${RESTIC_TAG?"Missing environment variable RESTIC_TAG"} >> ${lastLogfile} 2>&1
 else
-    restic backup /data ${RESTIC_JOB_ARGS} --tag=${RESTIC_TAG?"Missing environment variable RESTIC_TAG"} >> ${lastLogfile} 2>&1
+    restic backup -v /data ${RESTIC_JOB_ARGS} --tag=${RESTIC_TAG?"Missing environment variable RESTIC_TAG"} >> ${lastLogfile} 2>&1
 fi
 rc=$?
 logLast "Finished backup at $(date)"
