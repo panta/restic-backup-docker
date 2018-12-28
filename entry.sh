@@ -65,9 +65,14 @@ if [ -n "${BACKUP_CRON}" ] ; then
 	tail -fn0 /var/log/cron.log
 else
 	echo "Starting immediate non-scheduled backup..."
-	/bin/backup >> /var/log/backup-immediate.log 2>&1
+  if [ -n "${RESTIC_INTERACTIVE}" ] ; then
+    echo "Container started."
+    restic backup -v /data ${RESTIC_JOB_ARGS} --host=${RESTIC_HOST} --tag=${RESTIC_TAG?"Missing environment variable RESTIC_TAG"}
+  else
+    /bin/backup >> /var/log/backup-immediate.log 2>&1 &
 
-	echo "Container started."
+    echo "Container started."
 
-	tail -fn0 /var/log/backup-immediate.log
+    tail -fn0 /var/log/backup-immediate.log
+  fi
 fi

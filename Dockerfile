@@ -44,6 +44,7 @@ ENV NFS_TARGET=""
 ENV BACKUP_CRON="0 */6 * * *"
 ENV RESTIC_FORGET_ARGS=""
 ENV RESTIC_JOB_ARGS=""
+ENV RESTIC_INTERACTIVE=""
 
 # /data is the dir where you have to put the data to be backed up
 VOLUME /data
