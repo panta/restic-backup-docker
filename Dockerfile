@@ -46,6 +46,9 @@ ENV RESTIC_FORGET_ARGS=""
 ENV RESTIC_JOB_ARGS=""
 ENV RESTIC_INTERACTIVE=""
 
+ENV AWS_ACCESS_KEY_ID=""
+ENV AWS_SECRET_ACCESS_KEY=""
+
 # /data is the dir where you have to put the data to be backed up
 VOLUME /data
 
